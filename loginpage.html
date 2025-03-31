@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Grocery Shop Inventory</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="icon/x-image" href="/CaseStudy/image.ico">
+    <style>
+        body {
+            height: 100vh;
+            background: linear-gradient(rgb(203, 30, 30), rgb(212, 148, 148)) no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .login {
+            border: 2px solid;
+            padding: 100px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0px 35px 25px rgb(94, 50, 50);
+            border-radius: 5px;
+            background-color: white;
+            text-align: center;
+        }
+
+        img {
+            width: 200px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        input {
+            padding: 15px;
+            border: 1px solid;
+            border-radius: 3px;
+        }
+
+        #button1 {
+            padding: 10px;
+            border: 1px solid;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: rgb(203, 30, 30);
+            color: white;
+        }
+
+        .addcolour {
+            background-color: rgb(190, 98, 98);
+        }
+        .video-container {
+            display: none;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(
+                rgb(201, 88, 88),
+                red
+            ) no-repeat;
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+
+        video {
+            max-width: 50%;
+            max-height: 50%;
+            border-radius: 5px;
+            background-color: rgb(187, 117, 117);
+        }
+        #button2{
+            background-color: rgb(244, 2, 2);
+            padding: 6px;
+            margin: 4px 60px;
+            border: 1px;
+            border-radius: 3px;
+        }
+        a {
+            text-decoration: none;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="login">
+        <img src="/CaseStudy/icon.png" alt="Grocery inventory logo">
+        <h1>SMS-COMPANY</h1>
+        <form id="loginForm">
+            <input id="email" type="email" placeholder="Enter your email" required>
+            <input id="password" type="password" placeholder="Enter your password" required>
+            <button type="submit" id="button1">Log in</button>
+            Don't have an account? <a href="/CaseStudy/registerpage.html" id="button2">Register</a>
+        </form>
+    </div>
+
+    <div class="video-container" id="videoContainer">
+        <video id="loginVideo" autoplay muted>
+            <source src="/CaseStudy/GSI.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <script>
+        document.getElementById("loginForm").addEventListener("submit", async function(event) {
+            event.preventDefault();  // Prevents page reload
+
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+
+            try {
+                const response = await fetch("http://localhost:5000/login", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    alert("Login successful!");
+
+                    document.querySelector(".login").style.display = "none";
+                    let videoContainer = document.getElementById("videoContainer");
+                    let loginVideo = document.getElementById("loginVideo");
+
+                    videoContainer.style.display = "flex";
+                    loginVideo.play().catch(error => console.log("Video play failed:", error));
+
+                    loginVideo.onended = function () {
+                        window.location.href = "/CaseStudy/frames.html";
+                    };
+                } else {
+                    alert("Invalid email or password. Please try again.");
+                }
+            } catch (error) {
+                console.error("Error logging in:", error);
+                alert("Something went wrong. Please try again later.");
+            }
+        });
+    </script>
+</body>
+</html>

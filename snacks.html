@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>GI-shop - Fruits</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
+        <link rel="icon" type="icon/x-image" href="/CaseStudy/image.ico">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        <style>
+            .section1 { margin: 100px; }
+            button { padding: 10px; border: 1px solid; border-radius: 5px; cursor: pointer; background-color: rgb(203, 30, 30); color: white; }
+            a { text-decoration: none; color: white; }
+            #back, #stock-manage { margin: 10px; padding: 10px; }
+            .stock-info { color: #666; font-size: 0.9em; margin-top: 5px; }
+            .low-stock { color: #dc3545; font-weight: bold; }
+            .out-of-stock { color: #dc3545; font-weight: bold; }
+            .card-footer { background: transparent; border-top: none; }
+        </style>
+    </head>
+<body>
+    <button id="back"><a href="/CaseStudy/mainpage.html">🔙 Back</a></button>
+    <button id="stock-manage"><a href="stock.html">📦 Manage Stock</a></button>
+
+    <section class="section1">
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            <!-- Lays -->
+            <div class="col">
+                <div class="card h-100">
+                    <img src="https://th.bing.com/th/id/OIP.aVPHW2arnUEGI7khhlZf8AHaHa?w=196&h=196&c=7&r=0&o=5&dpr=1.3&pid=1.7" class="card-img-top" alt="Lays">
+                    <div class="card-body">
+                        <h5 class="card-title">Lays</h5>
+                        <p class="card-text">Crispy, salty Lays chips for ultimate satisfaction.</p>
+                        <p><strong>Cost: ₹7200</strong></p>
+                        <div class="stock-info" id="lays-stock"></div>
+                    </div>
+                    <button onclick="addToCart('Lays', 7200, this)">Add to Cart</button>
+                </div>
+            </div>
+            
+            <!-- Chex Mix -->
+            <div class="col">
+                <div class="card h-100">
+                    <img src="https://www.thespruceeats.com/thmb/poZneSMGr1LAtblEnSVjn-36zDg=/4303x2868/filters:fill(auto,1)/devilishly-spicy-chex-mix-4148042-hero-01-eb2147dfbc374055a94076fac8c7451d.jpg" class="card-img-top" alt="Chex Mix">
+                    <div class="card-body">
+                        <h5 class="card-title">Devilishly Spicy Chex Mix</h5>
+                        <p class="card-text">A fiery blend of Chex Mix that packs a punch.</p>
+                        <p><strong>Cost: ₹5400</strong></p>
+                        <div class="stock-info" id="devilishly-spicy-chex-mix-stock"></div>
+                    </div>
+                    <button onclick="addToCart('Devilishly Spicy Chex Mix', 5400, this)">Add to Cart</button>
+                </div>
+            </div>
+            
+            <!-- Gourmet Chocolates -->
+            <div class="col">
+                <div class="card h-100">
+                    <img src="https://fthmb.tqn.com/u3lOAB_EP8518RhpPKkg1_4SVF8=/960x0/filters:no_upscale()/laburdick-56a434b33df78cf772814757.jpg" class="card-img-top" alt="Gourmet Chocolates">
+                    <div class="card-body">
+                        <h5 class="card-title">Gourmet Chocolates</h5>
+                        <p class="card-text">Indulge in smooth, rich gourmet chocolates.</p>
+                        <p><strong>Cost: ₹8800</strong></p>
+                        <div class="stock-info" id="gourmet-chocolates-stock"></div>
+                    </div>
+                    <button onclick="addToCart('Gourmet Chocolates', 8800, this)">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section1">
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            <!-- Samosa -->
+            <div class="col">
+                <div class="card h-100">
+                    <img src="https://www.harvestfoodindustries.com/img/Cocktail-Samosa-pro-detail-packet.jpg" class="card-img-top" alt="Samosa">
+                    <div class="card-body">
+                        <h5 class="card-title">Samosa</h5>
+                        <p class="card-text">Golden, crispy samosas filled with delicious flavors.</p>
+                        <p><strong>Cost: ₹5000</strong></p>
+                        <div class="stock-info" id="samosa-stock"></div>
+                    </div>
+                    <button onclick="addToCart('Samosa', 5000, this)">Add to Cart</button>
+                </div>
+            </div>
+            
+            <!-- Biscates -->
+            <div class="col">
+                <div class="card h-100">
+                    <img src="https://m.media-amazon.com/images/I/61aF8bgrbTL._AC_SX466_.jpg" class="card-img-top" alt="Biscates">
+                    <div class="card-body">
+                        <h5 class="card-title">Biscates</h5>
+                        <p class="card-text">Crunchy and delightful Biscates for every snack break.</p>
+                        <p><strong>Cost: ₹9300</strong></p>
+                        <div class="stock-info" id="biscates-stock"></div>
+                    </div>
+                    <button onclick="addToCart('Biscates', 9300, this)">Add to Cart</button>
+                </div>
+            </div>
+            
+            <!-- Sweets -->
+            <div class="col">
+                <div class="card h-100">
+                    <img src="https://assets.isu.pub/document-structure/230601092922-72886d08276ffeb308b4dd9bcc0b9ab4/v1/7ecf35b3fc9f72c4f066c4532a4ae38b.jpeg" class="card-img-top" alt="Sweets">
+                    <div class="card-body">
+                        <h5 class="card-title">Sweets</h5>
+                        <p class="card-text">Sweet treats to satisfy your sugar cravings.</p>
+                        <p><strong>Cost: ₹6700</strong></p>
+                        <div class="stock-info" id="sweets-stock"></div>
+                    </div>
+                    <button onclick="addToCart('Sweets', 6700, this)">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Initialize stock if not exists
+        if (!localStorage.getItem("stock")) {
+            const initialStock = JSON.parse(localStorage.getItem("stock")) || {};
+            const snacks = {
+                "Lays": 1500,
+                "Devilishly Spicy Chex Mix": 1200,
+                "Gourmet Chocolates": 2000,
+                "Samosa": 1800,
+                "Biscates": 1600,
+                "Sweets": 2200
+            };
+            localStorage.setItem("stock", JSON.stringify({...initialStock, ...snacks}));
+        }
+
+        // Display stock on page load
+        document.addEventListener("DOMContentLoaded", function() {
+            updateStockDisplay();
+        });
+
+        function updateStockDisplay() {
+            const stock = JSON.parse(localStorage.getItem("stock"));
+            const products = [
+                "Lays", "Devilishly Spicy Chex Mix", "Gourmet Chocolates",
+                "Samosa", "Biscates", "Sweets"
+            ];
+            
+            products.forEach(product => {
+                const elementId = `${product.toLowerCase().replace(/[ ,]/g, '-')}-stock`;
+                const element = document.getElementById(elementId);
+                if (element) {
+                    if (stock[product] <= 0) {
+                        element.textContent = "Out of Stock";
+                        element.className = "stock-info out-of-stock";
+                        document.querySelectorAll(`button[onclick*="${product}"]`).forEach(btn => {
+                            btn.disabled = true;
+                            btn.style.backgroundColor = "#cccccc";
+                            btn.style.cursor = "not-allowed";
+                        });
+                    } else {
+                        element.textContent = `In Stock: ${stock[product]}`;
+                        element.className = stock[product] < 100 ? "stock-info low-stock" : "stock-info";
+                    }
+                }
+            });
+        }
+
+        function addToCart(name, price, button) {
+            let stock = JSON.parse(localStorage.getItem("stock"));
+            if (stock[name] <= 0) {
+                alert(`${name} is out of stock!`);
+                return;
+            }
+
+            let imgSrc = button.closest('.card').querySelector('img').src;
+            let item = { name, price, imgSrc, quantity: 1 };
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            let existingItem = cart.find(cartItem => cartItem.name === name);
+            
+            if (existingItem) {
+                existingItem.quantity++;
+            } else {
+                cart.push(item);
+            }
+            
+            stock[name]--;
+            localStorage.setItem('stock', JSON.stringify(stock));
+            localStorage.setItem('cart', JSON.stringify(cart));
+            
+            updateStockDisplay();
+            alert(`${name} added to cart! ${stock[name]} remaining.`);
+        }
+    </script>
+</body>
+</html>

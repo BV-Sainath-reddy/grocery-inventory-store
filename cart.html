@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Shopping Cart</title>
+    <meta charset="UTF-8">
+    <link rel="icon" type="icon/x-image" href="/CaseStudy/image.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .cart-container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .cart-item img {
+            width: 50px;
+            height: 50px;
+            border-radius: 5px;
+            margin-right: 15px;
+        }
+
+        .cart-item-content {
+            display: flex;
+            align-items: center;
+            flex-grow: 1;
+        }
+
+        .cart-item .btn {
+            padding: 5px 10px;
+            font-size: 14px;
+            border-radius: 5px;
+        }
+
+        .increase-btn {
+            background-color: #28a745;
+            color: white;
+            border: none;
+        }
+
+        .increase-btn:hover {
+            background-color: #218838;
+        }
+
+        .remove-btn {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+        }
+
+        .remove-btn:hover {
+            background-color: #c82333;
+        }
+
+        .place-order-btn {
+            width: 100%;
+            margin-top: 15px;
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            font-size: 16px;
+        }
+
+        .place-order-btn:hover {
+            background-color: #0056b3;
+        }
+
+        #total-price {
+            font-size: 18px;
+            font-weight: bold;
+            text-align: right;
+            margin-top: 15px;
+        }
+
+        .order-details {
+            display: none;
+            padding: 15px;
+            border-top: 1px solid #ddd;
+            margin-top: 15px;
+            background-color: #e9ecef;
+            border-radius: 5px;
+        }
+        button {
+            margin: 5px;
+            padding: 10px;
+            border: 1px solid;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: rgb(203, 30, 30);
+            color: white;
+        }
+
+        a {
+            text-decoration: none;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <button id="back"><a href="frames.html">🔙 Back</a></button>
+    <div class="cart-container">
+        <h3 class="text-center">🛒 Shopping Cart</h3>
+        <ul id="cart-items" class="list-group mb-3"></ul>
+        <div id="total-price" class="text-end">Total: ₹0</div>
+        <button id="place-order" class="place-order-btn" onclick="placeOrder()">Place Order</button>
+        <div id="order-details" class="order-details">
+            <p>Your order has been placed successfully!</p>
+            <p>Estimated Delivery Time: <span id="delivery-time"></span></p>
+            <a href="orders.html" class="btn btn-primary">Go to Your Orders</a>
+        </div>
+    </div>
+
+    <script>
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+        function updateCart() {
+            let cartList = document.getElementById("cart-items");
+            let totalPriceElement = document.getElementById("total-price");
+            cartList.innerHTML = "";
+
+            let totalCost = 0;
+
+            cart.forEach((item, index) => {
+                let li = document.createElement("li");
+                li.className = "list-group-item cart-item";
+                li.innerHTML = `
+                    <input type="checkbox" class="cart-checkbox me-2" id="checkbox-${index}" 
+                           onchange="updateTotalPrice()" ${item.selected ? 'checked' : ''}>
+                    <div class="cart-item-content">
+                        <img src="${item.imgSrc}" alt="${item.name}">
+                        <div>
+                            <strong>${item.name}</strong> <br> ₹${item.price} x ${item.quantity}
+                        </div>
+                    </div>
+                    <button class="btn increase-btn" onclick="increaseQuantity(${index})">+</button>
+                    <span class="mx-2">${item.quantity}</span>
+                    <button class="btn remove-btn" onclick="removeFromCart(${index})">🗑</button>
+                `;
+                cartList.appendChild(li);
+            });
+
+            updateTotalPrice();
+        }
+
+        function updateTotalPrice() {
+            let totalCost = 0;
+            
+            cart.forEach((item, index) => {
+                let checkbox = document.getElementById(`checkbox-${index}`);
+                if (checkbox) {
+                    item.selected = checkbox.checked;
+                    if (checkbox.checked) {
+                        totalCost += item.price * item.quantity;
+                    }
+                }
+            });
+            
+            localStorage.setItem("cart", JSON.stringify(cart));
+            document.getElementById("total-price").textContent = `Total: ₹${totalCost}`;
+        }
+
+        function increaseQuantity(index) {
+            cart[index].quantity++;
+            localStorage.setItem("cart", JSON.stringify(cart));
+            updateCart();
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            localStorage.setItem("cart", JSON.stringify(cart));
+            updateCart();
+        }
+
+        function placeOrder() {
+            let selectedItems = [];
+            let totalCost = 0;
+
+            cart.forEach((item, index) => {
+                let checkbox = document.getElementById(`checkbox-${index}`);
+                if (checkbox && checkbox.checked) {
+                    selectedItems.push(item);
+                    totalCost += item.price * item.quantity;
+                }
+            });
+
+            if (selectedItems.length === 0) {
+                alert("Please select items to place an order.");
+                return;
+            }
+
+            let deliveryTimes = ["30 mins", "1 hour", "2 hours", "3 hours"];
+            let randomDeliveryTime = deliveryTimes[Math.floor(Math.random() * deliveryTimes.length)];
+
+            // Save the order to orders history
+            let orders = JSON.parse(localStorage.getItem("orders")) || [];
+            selectedItems.forEach(item => {
+                orders.push({
+                    ...item,
+                    deliveryTime: randomDeliveryTime,
+                    orderDate: new Date().toLocaleString()
+                });
+            });
+            localStorage.setItem("orders", JSON.stringify(orders));
+
+            document.getElementById("order-details").style.display = "block";
+            document.getElementById("delivery-time").textContent = randomDeliveryTime;
+
+            // Clear cart of selected items
+            selectedItems.forEach(item => {
+                let itemIndex = cart.findIndex(cartItem => cartItem.name === item.name);
+                if (itemIndex > -1) {
+                    cart.splice(itemIndex, 1);
+                }
+            });
+
+            localStorage.setItem("cart", JSON.stringify(cart));
+            updateCart();
+        }
+
+        cart = cart.map(item => {
+            if (item.selected === undefined) {
+                item.selected = false;
+            }
+            return item;
+        });
+
+        updateCart();
+    </script>
+</body>
+
+</html>

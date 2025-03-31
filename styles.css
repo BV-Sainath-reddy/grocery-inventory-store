@@ -1,0 +1,33 @@
+body{
+    font-family: sans-serif;
+}
+.navbar{
+background:linear-gradient(
+    rgb(213, 118, 118),
+    rgb(220, 35, 35)
+);
+}
+.navbar a{
+    margin: 0px 20px;
+}
+a:hover{
+    transform: scale(1.1);
+    transition: ease-in-out;
+}
+#img1{
+    height: 50px;
+}
+#section1{
+    margin-top: 50px;
+}
+#section2{
+    margin: 50px;
+    display: flex;
+}
+#section3{
+    padding: 50px;
+    background: linear-gradient(
+        rgb(247, 167, 167),
+        rgb(197, 51, 51)
+    );
+}
